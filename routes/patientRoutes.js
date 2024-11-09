@@ -15,7 +15,13 @@ router.get("/", async (req, res) => {
     }
     else {
       const patients = await Patient.find();
-      res.json(patients);
+      const patientList = patients.map(patient => patient.toObject())
+
+      for (let i = 0; i < patients.length; i++) {
+        const crit = await isCritical(patientList[i]["_id"]);
+        patientList[i]["isCritical"] = crit;
+      }
+      res.json(patientList);
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -50,8 +56,13 @@ router.get("/:id", async (req, res) => {
       res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
     }
     else {
-      const patient = await Patient.findById(req.params.id);
+      let patient = await Patient.findById(req.params.id);
       if (!patient) return res.status(404).json({ message: "Patient not found" });
+      patient = patient.toObject()
+      const crit = await isCritical(req.params.id)
+      patient.isCritical = crit;
+      console.log(crit)
+      console.log(patient)
       res.json(patient);
     }
   } catch (error) {

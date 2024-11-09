@@ -29,6 +29,16 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/patient/:id', async (req, res) => {
+  try {
+    const record = await PatientRecord.find({ patient: req.params.id}).populate('patient');
+    if (!record) return res.status(404).json({ message: 'Record not found' });
+    res.json(record);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 
 // Delete a patient record by ID
