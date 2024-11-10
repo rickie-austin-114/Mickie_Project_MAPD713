@@ -21,7 +21,7 @@ export async function isCritical(id) {
     // Check blood pressure
     if (bloodPressureRecord) {
       const bloodPressureValue = bloodPressureRecord.readingValue;
-      if (bloodPressureValue < 60 || bloodPressureValue > 140) {
+      if (bloodPressureValue < 50 || bloodPressureValue > 150) {
         isCritical = true;
       }
     }
@@ -29,7 +29,7 @@ export async function isCritical(id) {
     // Check blood oxygen level
     if (bloodOxygenRecord) {
       const bloodOxygenValue = bloodOxygenRecord.readingValue;
-      if (bloodOxygenValue < 40 || bloodOxygenValue > 80) {
+      if (bloodOxygenValue < 80 || bloodOxygenValue > 95) {
         isCritical = true;
       }
     }
