@@ -29,10 +29,18 @@ const ListPatientsScreen = ({ navigation }) => {
   const fetchPatients = async () => {
     try {
       if (listCritical === false) {
-        const response = await axios.get(`${backendURL}api/patients`);
+        const response = await axios.get(`${backendURL}api/patients`, {
+          headers: {
+              'auth': 'q9328wh3y4tn3ycq89rnyh8oqu4mr98t4w9q8nry0'
+          }
+      });
         setPatients(response.data);
       } else {
-        const response = await axios.get(`${backendURL}api/patients/critical`);
+        const response = await axios.get(`${backendURL}api/patients/critical`, {
+          headers: {
+              'auth': 'q9328wh3y4tn3ycq89rnyh8oqu4mr98t4w9q8nry0'
+          }
+      });
         setPatients(response.data);
       }
     } catch (error) {

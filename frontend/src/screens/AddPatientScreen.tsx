@@ -30,7 +30,11 @@ const AddPatientScreen = ({ navigation }) => {
         profilePicture,
         gender,
         dateOfBirth
-        });
+        }, {
+          headers: {
+              'auth': 'q9328wh3y4tn3ycq89rnyh8oqu4mr98t4w9q8nry0'
+          }
+      });
       Alert.alert('Success', 'Patient added successfully');
       navigation.goBack();
     } catch (error) {
