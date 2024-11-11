@@ -18,10 +18,10 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parse application/x-www-f
 app.use(cors())
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(process.env.MONGO_URI/*,  {
   useNewUrlParser: true,
   useUnifiedTopology: true
-}).then(() => {
+}*/).then(() => {
   console.log("Connected to MongoDB");
 }).catch(error => {
   console.error("Error connecting to MongoDB:", error);
