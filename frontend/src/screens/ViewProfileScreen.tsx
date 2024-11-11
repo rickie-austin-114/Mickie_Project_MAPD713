@@ -24,7 +24,7 @@ const ViewProfileScreen = ({ route, navigation }) => {
   const fetchRecords = async () => {
     try {
       const response = await axios.get(
-        `${backendURL}api/patientRecord/patient/${patient._id}`
+        `${backendURL}api/patientRecords/patient/${patient._id}`
       );
       setRecords(response.data);
     } catch (error) {
@@ -43,7 +43,10 @@ const ViewProfileScreen = ({ route, navigation }) => {
       <Text>Name: {patient.name}</Text>
       <Text>Age: {patient.age}</Text>
       <Text>Gender: {patient.gender}</Text>
+      <Text>Phone: {patient.phone}</Text>
+      <Text>Email: {patient.email}</Text>
       <Text>Address: {patient.address}</Text>
+      <Text>Date of Birth: {patient.dateOfBirth}</Text>
       <Text>Condition: {patient.condition}</Text>
       <Text>Records:</Text>
       <FlatList

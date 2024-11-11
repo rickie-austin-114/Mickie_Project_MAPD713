@@ -32,7 +32,7 @@ const ListPatientsScreen = ({ navigation }) => {
         const response = await axios.get(`${backendURL}api/patients`);
         setPatients(response.data);
       } else {
-        const response = await axios.get(`${backendURL}api/critical`);
+        const response = await axios.get(`${backendURL}api/patients/critical`);
         setPatients(response.data);
       }
     } catch (error) {

@@ -4,13 +4,39 @@ import { Authenticate } from "./functions/Authenticate.js";
 import { isCritical } from "./functions/isCritical.js";
 
 const router = express.Router();
-const needAuthenticate = false;
+const needAuthenticate = 0;
+
+// Get all patients
+router.get("/critical", async (req, res) => {
+  try {
+    const authHeader = req.headers['auth']; // Access the "Auth" header
+    if ((!authHeader || !Authenticate(authHeader)) && needAuthenticate) {
+      res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
+    }
+    else {
+      const patients = await Patient.find();
+      const patientList = patients.map(patient => patient.toObject())
+      let criticalList = [];
+
+      for (let i = 0; i < patients.length; i++) {
+        const crit = await isCritical(patientList[i]["_id"]);
+        patientList[i]["condition"] = crit;
+        if (crit === "Critical") {
+          criticalList.push(patientList[i])
+        }
+      }
+      res.json(criticalList);
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // Get all patients
 router.get("/", async (req, res) => {
   try {
     const authHeader = req.headers['auth']; // Access the "Auth" header
-    if (!authHeader || !Authenticate(authHeader)) {
+    if ((!authHeader || !Authenticate(authHeader)) && needAuthenticate) {
       res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
     }
     else {
@@ -19,7 +45,7 @@ router.get("/", async (req, res) => {
 
       for (let i = 0; i < patients.length; i++) {
         const crit = await isCritical(patientList[i]["_id"]);
-        patientList[i]["isCritical"] = crit;
+        patientList[i]["condition"] = crit;
       }
       res.json(patientList);
     }
@@ -32,7 +58,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const authHeader = req.headers['auth']; // Access the "Auth" header
-    if (!authHeader || !Authenticate(authHeader)) {
+    if ((!authHeader || !Authenticate(authHeader)) && needAuthenticate) {
       res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
     }
     else {
@@ -52,7 +78,7 @@ router.get("/:id", async (req, res) => {
 
   try {
     const authHeader = req.headers['auth']; // Access the "Auth" header
-    if (!authHeader || !Authenticate(authHeader)) {
+    if ((!authHeader || !Authenticate(authHeader)) && needAuthenticate) {
       res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
     }
     else {
@@ -60,7 +86,7 @@ router.get("/:id", async (req, res) => {
       if (!patient) return res.status(404).json({ message: "Patient not found" });
       patient = patient.toObject()
       const crit = await isCritical(req.params.id)
-      patient.isCritical = crit;
+      patient.condition = crit;
       console.log(crit)
       console.log(patient)
       res.json(patient);
@@ -74,7 +100,7 @@ router.get("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const authHeader = req.headers['auth']; // Access the "Auth" header
-    if (!authHeader || !Authenticate(authHeader)) {
+    if ((!authHeader || !Authenticate(authHeader)) && needAuthenticate) {
       res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
     }
     else {
@@ -98,7 +124,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const authHeader = req.headers['auth']; // Access the "Auth" header
-    if (!authHeader || !Authenticate(authHeader)) {
+    if ((!authHeader || !Authenticate(authHeader)) && needAuthenticate) {
       res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
     }
     else {

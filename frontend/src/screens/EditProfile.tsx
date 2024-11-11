@@ -8,21 +8,24 @@ const EditProfileScreen = ({ route, navigation }) => {
 
   const backendURL = Platform.OS === "android" ? "http://10.0.2.2:3030/" : "http://localhost:3030/"
 
-
-    const [name, setName] = useState('');
-    const [age, setAge] = useState('');
-    const [gender, setGender] = useState('');
-    const [address, setAddress] = useState('');
-    const [zipCode, setZipCode] = useState('');
-    const [error, setError] = useState('');
-    const [profilePicture, setProfilePicture] = useState('');
+  const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [error, setError] = useState('');
+  const [profilePicture, setProfilePicture] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [email, setEmail] = useState('');
 
     useEffect(() => {
         setName(patient.name);
         setAge(patient.age);
         setGender(patient.gender);
         setAddress(patient.address);
-        setZipCode(patient.zipCode);
+        setEmail(patient.email);
+        setDateOfBirth(patient.dateOfBirth);
+        setPhone(patient.phone)
         setProfilePicture(patient.profilePicture);
     }, [])
 
@@ -33,7 +36,9 @@ const EditProfileScreen = ({ route, navigation }) => {
               age: Number(age),
               gender,
               address,
-              zipCode,
+              email,
+              phone,
+              dateOfBirth,
               profilePicture,
             });
             Alert.alert('Success', 'Patient updated successfully');
@@ -49,7 +54,9 @@ const EditProfileScreen = ({ route, navigation }) => {
       <TextInput placeholder="Age" value={age} onChangeText={setAge} />
       <TextInput placeholder="Gender" value={gender} onChangeText={setGender} />
       <TextInput placeholder="Address" value={address} onChangeText={setAddress} />
-      <TextInput placeholder="Zip Code" value={zipCode} onChangeText={setZipCode} />
+      <TextInput placeholder="Phone" value={phone} onChangeText={setPhone} />
+      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
+      <TextInput placeholder="Date of Birth" value={dateOfBirth} onChangeText={setDateOfBirth} />
       <TextInput placeholder="Profile Image Link" value={profilePicture} onChangeText={setProfilePicture} />
       <Button title="Update Patient" onPress={updatePatient} />
       {error ? <Text style={styles.errorText}>{error}</Text> : null}

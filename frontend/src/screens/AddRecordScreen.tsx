@@ -35,7 +35,7 @@ const AddRecordScreen = ({ route, navigation }) => {
 
   const addRecord = async () => {
     try {
-      const response = await axios.post(`${backendURL}api/record`, {
+      const response = await axios.post(`${backendURL}api/patientRecords`, {
         patient: patient._id,
         datatype: selectedOption,
         readingValue: Number(readingValue),

@@ -5,7 +5,7 @@ import { Authenticate } from './functions/Authenticate.js';
 
 const router = express.Router();
 
-const needAuthenticate = false
+const needAuthenticate = 0;
 
 // Update a patient record by ID
 router.put('/:id', async (req, res) => {
