@@ -5,12 +5,14 @@ import { Authenticate } from './functions/Authenticate.js';
 
 const router = express.Router();
 
+const needAuthenticate = false
+
 // Update a patient record by ID
 router.put('/:id', async (req, res) => {
   try {
     const authHeader = req.headers['auth']; // Access the "Auth" header
-    if (!authHeader || !Authenticate(authHeader)) {
-      res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
+    if ((!authHeader || !Authenticate(authHeader)) && needAuthenticate) {
+      return res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
     }
     else {
       const record = await PatientRecord.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -26,8 +28,8 @@ router.put('/:id', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const authHeader = req.headers['auth']; // Access the "Auth" header
-    if (!authHeader || !Authenticate(authHeader)) {
-      res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
+    if ((!authHeader || !Authenticate(authHeader)) && needAuthenticate) {
+      return res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
     }
     else {
       const record = await PatientRecord.findById(req.params.id).populate('patient');
@@ -43,8 +45,8 @@ router.get('/:id', async (req, res) => {
 router.get('/patient/:id', async (req, res) => {
   try {
     const authHeader = req.headers['auth']; // Access the "Auth" header
-    if (!authHeader || !Authenticate(authHeader)) {
-      res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
+    if ((!authHeader || !Authenticate(authHeader)) && needAuthenticate) {
+      return res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
     }
     else {
       const record = await PatientRecord.find({ patient: req.params.id }).populate('patient');
@@ -62,8 +64,8 @@ router.get('/patient/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const authHeader = req.headers['auth']; // Access the "Auth" header
-    if (!authHeader || !Authenticate(authHeader)) {
-      res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
+    if ((!authHeader || !Authenticate(authHeader)) && needAuthenticate) {
+      return res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
     }
     else {
       const record = await PatientRecord.findByIdAndDelete(req.params.id);
@@ -79,7 +81,7 @@ router.delete('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const authHeader = req.headers['auth']; // Access the "Auth" header
-    if (!authHeader || !Authenticate(authHeader)) {
+    if ((!authHeader || !Authenticate(authHeader)) && needAuthenticate) {
       res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
     }
     else {
@@ -96,7 +98,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const authHeader = req.headers['auth']; // Access the "Auth" header
-    if (!authHeader || !Authenticate(authHeader)) {
+    if ((!authHeader || !Authenticate(authHeader)) && needAuthenticate) {
       res.status(401).json({ "message": "Unauthorized: Invalid authentication credentials." })
     }
     else {

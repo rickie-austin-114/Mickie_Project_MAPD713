@@ -4,7 +4,7 @@ import { Authenticate } from "./functions/Authenticate.js";
 import { isCritical } from "./functions/isCritical.js";
 
 const router = express.Router();
-
+const needAuthenticate = false;
 
 // Get all patients
 router.get("/", async (req, res) => {
