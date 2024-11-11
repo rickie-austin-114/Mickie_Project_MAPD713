@@ -20,6 +20,7 @@ const patientSchema = new mongoose.Schema({
     required: true
   },
   address: String,
+  profilePicture: String,
   gender: {
     type: String,
     enum: ['Male', 'Female', 'Other']
